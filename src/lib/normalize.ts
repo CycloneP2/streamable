@@ -40,10 +40,11 @@ export function normalize(provider: Provider, raw: any): CardItem | null {
     }
     case "reelshort": {
       return {
-        id: String(raw.bookId || raw.id || ""),
-        title: raw.bookName || raw.name || raw.title || "",
-        cover: raw.cover || raw.coverWap || raw.coverImage,
-        meta: raw.chapterCount ? `${raw.chapterCount} eps` : undefined,
+        id: String(raw.book_id || raw.bookId || raw.id || ""),
+        title: raw.book_title || raw.bookName || raw.name || raw.title || "",
+        cover: raw.book_pic || raw.cover || raw.coverWap || raw.coverImage,
+        meta: raw.chapter_count ? `${raw.chapter_count} eps` : undefined,
+        rating: raw.read_count ? `${Math.round(raw.read_count / 1000)}K` : undefined,
       };
     }
     case "shortmax": {
@@ -91,6 +92,17 @@ export function normalize(provider: Provider, raw: any): CardItem | null {
 export function pickList(raw: any): any[] {
   if (Array.isArray(raw)) return raw;
   if (!raw || typeof raw !== 'object') return [];
+  
+  // Handle reelshort homepage special case
+  if (raw.lists && Array.isArray(raw.lists)) {
+    const books: any[] = [];
+    for (const list of raw.lists) {
+      if (list.books && Array.isArray(list.books)) {
+        books.push(...list.books);
+      }
+    }
+    if (books.length > 0) return books;
+  }
   
   // Try common array properties
   const arrayProps = [
