@@ -1,13 +1,15 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Film, Search, Sparkles, Menu, X } from "lucide-react";
+import { Film, Search, Sparkles, Menu, X, Download } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROVIDERS } from "@/lib/api";
+import { usePWA } from "@/hooks/use-pwa";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [q, setQ] = useState("");
+  const { isInstallable, installApp } = usePWA();
 
   const onSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,6 +94,16 @@ export function Navbar() {
         >
           {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </button>
+
+        {isInstallable && (
+          <button
+            onClick={installApp}
+            className="glass rounded-full p-2 transition hover:bg-white/20"
+            title="Install app"
+          >
+            <Download className="h-4 w-4" />
+          </button>
+        )}
       </nav>
 
       <AnimatePresence>

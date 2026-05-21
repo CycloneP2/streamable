@@ -1,0 +1,103 @@
+{
+  "name": "Sansekai - Streaming Platform",
+  "short_name": "Sansekai",
+  "description": "Watch anime, drama, komik, and movies with advanced caching",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
+  "categories": ["entertainment", "video"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'%3E%3Crect fill='%230f172a' width='540' height='720'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2360a5fa' text-anchor='middle' dominant-baseline='middle'%3ESansekai%3C/text%3E%3C/svg%3E",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 720'%3E%3Crect fill='%230f172a' width='1280' height='720'/%3E%3Ctext x='50%25' y='50%25' font-size='72' fill='%2360a5fa' text-anchor='middle' dominant-baseline='middle'%3ESansekai%3C/text%3E%3C/svg%3E",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%230f172a' width='192' height='192'/%3E%3Crect fill='%2360a5fa' x='48' y='48' width='96' height='96' rx='20'/%3E%3Ctext x='96' y='96' font-size='80' fill='%230f172a' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%2360a5fa' width='192' height='192'/%3E%3Crect fill='%230f172a' x='48' y='48' width='96' height='96' rx='20'/%3E%3Ctext x='96' y='96' font-size='80' fill='%2360a5fa' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%230f172a' width='512' height='512'/%3E%3Crect fill='%2360a5fa' x='128' y='128' width='256' height='256' rx='50'/%3E%3Ctext x='256' y='256' font-size='200' fill='%230f172a' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%2360a5fa' width='512' height='512'/%3E%3Crect fill='%230f172a' x='128' y='128' width='256' height='256' rx='50'/%3E%3Ctext x='256' y='256' font-size='200' fill='%2360a5fa' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Browse Anime",
+      "short_name": "Anime",
+      "description": "Browse anime collection",
+      "url": "/browse/anime",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect fill='%2360a5fa' width='96' height='96'/%3E%3Ctext x='48' y='48' font-size='60' text-anchor='middle' dominant-baseline='middle'%3E🎌%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Browse Drama",
+      "short_name": "Drama",
+      "description": "Browse drama collection",
+      "url": "/browse/dramabox",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect fill='%2360a5fa' width='96' height='96'/%3E%3Ctext x='48' y='48' font-size='60' text-anchor='middle' dominant-baseline='middle'%3E🎬%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Browse Movies",
+      "short_name": "Movies",
+      "description": "Browse movie collection",
+      "url": "/browse/moviebox",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect fill='%2360a5fa' width='96' height='96'/%3E%3Ctext x='48' y='48' font-size='60' text-anchor='middle' dominant-baseline='middle'%3E🎥%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

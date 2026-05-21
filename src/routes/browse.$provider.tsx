@@ -98,11 +98,28 @@ function BrowsePage() {
         }
         return lists.map((r) => normalize("moviebox", r)).filter(Boolean);
       }
+      
+      // reelshort homepage shape - extract from nested lists
+      if (provider === "reelshort" && data.lists && Array.isArray(data.lists)) {
+        const books: any[] = [];
+        for (const list of data.lists) {
+          if (list.books && Array.isArray(list.books)) {
+            books.push(...list.books);
+          }
+        }
+        if (books.length > 0) {
+          return books.map((r: any) => normalize(provider, r)).filter(Boolean);
+        }
+      }
+      
       const list = pickList(data);
-      if (!Array.isArray(list)) return [];
+      if (!Array.isArray(list)) {
+        console.warn("pickList returned non-array:", list);
+        return [];
+      }
       return list.map((r: any) => normalize(provider, r)).filter(Boolean);
     } catch (error) {
-      console.error("Error processing items:", error);
+      console.error("Error processing items:", error, "data:", q.data);
       return [];
     }
   })();
