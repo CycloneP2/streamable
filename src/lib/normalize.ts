@@ -90,14 +90,32 @@ export function normalize(provider: Provider, raw: any): CardItem | null {
 // Extract array from any response shape
 export function pickList(raw: any): any[] {
   if (Array.isArray(raw)) return raw;
-  if (!raw) return [];
-  return (
-    raw.subjectList ||
-    raw.items ||
-    raw.results ||
-    raw.data ||
-    raw.list ||
-    raw.records ||
-    []
-  );
+  if (!raw || typeof raw !== 'object') return [];
+  
+  // Try common array properties
+  const arrayProps = [
+    'subjectList',
+    'items',
+    'results',
+    'data',
+    'list',
+    'records',
+    'subjects',
+    'books',
+    'dramas',
+    'animes',
+    'komiks',
+  ];
+  
+  for (const prop of arrayProps) {
+    const value = raw[prop];
+    if (Array.isArray(value)) return value;
+  }
+  
+  // If data is an object with array values, try to extract them
+  const values = Object.values(raw);
+  const arrayValue = values.find(v => Array.isArray(v));
+  if (arrayValue) return arrayValue as any[];
+  
+  return [];
 }

@@ -89,15 +89,22 @@ function BrowsePage() {
   const items = (() => {
     const data: any = q.data;
     if (!data) return [];
-    // moviebox homepage shape
-    if (provider === "moviebox" && data.operatingList) {
-      const lists: any[] = [];
-      for (const op of data.operatingList) {
-        if (op.subjects?.length) lists.push(...op.subjects);
+    try {
+      // moviebox homepage shape
+      if (provider === "moviebox" && data.operatingList) {
+        const lists: any[] = [];
+        for (const op of data.operatingList) {
+          if (op.subjects?.length) lists.push(...op.subjects);
+        }
+        return lists.map((r) => normalize("moviebox", r)).filter(Boolean);
       }
-      return lists.map((r) => normalize("moviebox", r)).filter(Boolean);
+      const list = pickList(data);
+      if (!Array.isArray(list)) return [];
+      return list.map((r: any) => normalize(provider, r)).filter(Boolean);
+    } catch (error) {
+      console.error("Error processing items:", error);
+      return [];
     }
-    return pickList(data).map((r: any) => normalize(provider, r)).filter(Boolean);
   })();
 
   return (
