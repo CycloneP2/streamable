@@ -84,22 +84,70 @@ async function get<T = any>(path: string, params?: Record<string, any>): Promise
     return diskCached as T;
   }
 
-  // Fetch from API
-  const res = await fetch(url.toString(), {
-    headers: {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-    },
-  });
+  // Fetch from API with retry logic
+  const userAgents = [
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  ];
 
-  if (!res.ok) throw new Error(`API ${res.status}`);
-  const json = await res.json();
-  if (json?.error) throw new Error(json.message || json.error);
+  let lastError: Error | null = null;
 
-  // Cache the result
-  memoryCache.set(cacheKey, { data: json, timestamp: Date.now() });
-  await setCacheInDB(cacheKey, json);
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const headers = new Headers({
+        "User-Agent": userAgents[attempt % userAgents.length],
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "id-ID,id;q=0.9,en;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br",
+        "DNT": "1",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "cross-site",
+        "Cache-Control": "no-cache",
+      });
 
-  return json as T;
+      const res = await fetch(url.toString(), {
+        headers,
+        method: "GET",
+        mode: "cors",
+        credentials: "omit",
+      });
+
+      if (res.status === 403) {
+        lastError = new Error(`API 403 Forbidden`);
+        if (attempt < 2) {
+          await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
+          continue;
+        }
+        throw lastError;
+      }
+
+      if (!res.ok) {
+        throw new Error(`API ${res.status} ${res.statusText}`);
+      }
+
+      const json = await res.json();
+      if (json?.error) throw new Error(json.message || json.error);
+
+      // Cache the result
+      memoryCache.set(cacheKey, { data: json, timestamp: Date.now() });
+      await setCacheInDB(cacheKey, json);
+
+      return json as T;
+    } catch (error) {
+      lastError = error as Error;
+      if (attempt < 2) {
+        console.warn(`⚠️ Attempt ${attempt + 1} failed for ${path}, retrying...`);
+        await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
+      }
+    }
+  }
+
+  console.error(`❌ All attempts failed for ${path}:`, lastError);
+  throw lastError || new Error("Failed to fetch from API");
 }
 
 export const api = {
